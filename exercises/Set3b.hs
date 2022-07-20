@@ -39,7 +39,9 @@ import Mooc.Todo
 --   buildList 7 0 3 ==> [3]
 
 buildList :: Int -> Int -> Int -> [Int]
-buildList start count end = todo
+-- buildList start count end = todo
+buildList start 0 end = [end]
+buildList start n end = start : buildList start (n-1) end
 
 ------------------------------------------------------------------------------
 -- Ex 2: given i, build the list of sums [1, 1+2, 1+2+3, .., 1+2+..+i]
@@ -49,7 +51,16 @@ buildList start count end = todo
 -- Ps. you'll probably need a recursive helper function
 
 sums :: Int -> [Int]
-sums i = todo
+sums i = listGenerator 1 i
+
+listGenerator :: Int -> Int -> [Int]
+listGenerator current upperBound
+    | current == upperBound     = [sumGenerator upperBound]
+    | otherwise                 = sumGenerator current : listGenerator (current+1) upperBound
+
+sumGenerator :: Int -> Int
+sumGenerator 1 = 1
+sumGenerator n = n + sumGenerator (n-1)
 
 ------------------------------------------------------------------------------
 -- Ex 3: define a function mylast that returns the last value of the
@@ -63,7 +74,12 @@ sums i = todo
 --   mylast 0 [1,2,3] ==> 3
 
 mylast :: a -> [a] -> a
-mylast def xs = todo
+--mylast def xs = todo
+
+mylast def [] = def
+mylast def [x] = x
+mylast def (x:xs) = mylast def xs
+
 
 ------------------------------------------------------------------------------
 -- Ex 4: safe list indexing. Define a function indexDefault so that
